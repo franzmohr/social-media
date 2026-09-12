@@ -1,7 +1,7 @@
 
 rm(list = ls())
 
-ctry <- "AT"
+ctry <- "EA20"
 
 lang <- "de"
 
@@ -97,5 +97,5 @@ g <- ggplot(temp, aes(x = date, y = value)) +
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
 
 g
-save_post(g, "gdp-components-level-and-change-at", lang = lang, format = "landscape")
+save_post(g, "gdp-components-level-and-change-ea", lang = lang, format = "landscape")
 

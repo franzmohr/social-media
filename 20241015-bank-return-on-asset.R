@@ -70,27 +70,22 @@ result <- result %>%
                          levels = c(max_yr, last_yr, "earlier"),
                          labels = c(max_yr, last_yr, temp_labels)))
 
-source("theme_instagram.R")
+source("theme_franz.R")
 
 g <- ggplot(result, aes(x = qr, y = value, group = yr)) +
-  geom_line(aes(alpha = highlt, linetype = highlt)) +
-  geom_point(data = recent, show.legend = FALSE) +
+  geom_line(aes(colour = highlt, linetype = highlt), linewidth = .9) +
+  geom_point(data = recent, colour = franz_colours[["red"]], size = 2,
+             show.legend = FALSE) +
   scale_x_discrete(expand = c(.05, 0)) +
   scale_y_continuous(labels = scales::percent_format()) +
-  scale_alpha_manual(values = c(1, 1, .2)) +
-  scale_linetype_manual(values = c(1, 4, 1)) +
+  # the current year in the brand red, last year for reference, the rest as context
+  scale_colour_manual(values = unname(franz_colours[c("red", "blue", "mute")])) +
+  scale_linetype_manual(values = c(1, 2, 1)) +
   facet_wrap(~ geo) +
   labs(title = temp_title,
        caption = temp_caption) +
-  theme_instagram +
-  theme(strip.text = element_text(size = 6),
-        axis.title = element_blank(),
-        axis.text = element_text(size = 6),
-        plot.title = element_text(size = 10),
-        plot.subtitle = element_text(size = 8),
-        plot.caption = element_text(size = 6))
+  theme_franz(base_size = 13) +
+  theme(axis.title = element_blank())
 
 g
-
-date_title <- format(Sys.Date(), "%Y%m%d")
-ggsave(g, filename = paste0("pics/", date_title, "-bank-return-on-asset.jpeg"), height = 5, width = 5)
+save_post(g, "bank-return-on-asset", lang = lang, format = "portrait")
