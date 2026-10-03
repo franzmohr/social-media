@@ -58,7 +58,7 @@ temp_sdmx_files <- sdmx_files[which(grepl("sa_m_nace", sdmx_files))]
 
 var_levels <- as.character(1:7)
 
-ecdata <- readxl::read_xlsx(temp_sdmx_files, sheet = "41", na = "NA", col_types = c("date", rep("numeric", 454))) %>%
+ecdata <- readxl::read_xlsx(temp_sdmx_files, sheet = "41", na = "NA", col_types = c("date", rep("numeric", 455))) %>%
   rename(date = `41`) %>%
   pivot_longer(cols = -c("date")) %>%
   mutate(date = as.Date(date)) %>%

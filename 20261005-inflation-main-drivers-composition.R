@@ -4,6 +4,7 @@ rm(list = ls())
 
 ctry <- "AT"
 lang <- "de"
+options(corporate_design.mode = "dark")  # "light" for the standard look
 
 
 library(lubridate)
@@ -197,7 +198,7 @@ temp_col <- temp_col %>%
 
 used_date <- as.Date(unique(comp$time))
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 if (lang == "de") {
   months_de <- c("Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli",
@@ -207,7 +208,7 @@ if (lang == "de") {
   fig_subtitle <- paste0("Beiträge zur Inflationsrate im ", used_month,
                          ", in Prozentpunkten\n",
                          "Punkte: Beitrag der gesamten Hauptgruppe")
-  fig_caption <- franz_caption("Eurostat (HVPI).", lang = lang)
+  fig_caption <- caption_corporate_design("Eurostat (HVPI).", lang = lang)
   dec_mark <- ","
 }
 
@@ -218,12 +219,12 @@ levels(temp_col$var_fill) <- wrap_labels(levels(temp_col$var_fill), width = 36)
 fill_highlight <- head(levels(temp_col$var_fill), -1)
 
 g <- ggplot(temp_line, aes(x = value, y = var_x)) +
-  geom_vline(xintercept = 0, colour = franz_colours[["ink"]], linewidth = .5) +
+  geom_zeroline(x = 0) +
   # reverse = TRUE puts the named drivers next to the zero line, "Andere" outside
   geom_col(data = temp_col, aes(fill = var_fill), width = .72,
            position = position_stack(reverse = TRUE)) +
   geom_point(shape = 21, size = 2.6, stroke = 1,
-             fill = franz_colours[["paper"]], colour = franz_colours[["ink"]]) +
+             fill = design_colours()[["paper"]], colour = design_colours()[["ink"]]) +
   scale_fill_highlight(highlight = fill_highlight, rest = "Andere") +
   scale_x_continuous(labels = scales::label_number(decimal.mark = dec_mark),
                      expand = expansion(mult = c(.02, .04))) +
@@ -231,9 +232,9 @@ g <- ggplot(temp_line, aes(x = value, y = var_x)) +
   labs(title = fig_title,
        subtitle = fig_subtitle,
        caption = fig_caption) +
-  theme_franz(grid = "x") +
+  theme_corporate_design(grid = "x") +
   theme(axis.title = element_blank(),
-        axis.text.y = element_text(colour = franz_colours[["ink"]], hjust = 1,
+        axis.text.y = element_text(colour = design_colours()[["ink"]], hjust = 1,
                                    lineheight = .95),
         legend.text = element_text(lineheight = .95),
         legend.key.spacing.y = unit(5, "pt"),
@@ -241,5 +242,5 @@ g <- ggplot(temp_line, aes(x = value, y = var_x)) +
 
 g
 
-save_post(g, "inflation-main-drivers-composition", lang = lang, format = "portrait")
+save_chart(g, "inflation-main-drivers-composition", lang = lang, format = "portrait")
 

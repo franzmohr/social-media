@@ -45,14 +45,14 @@ ends <- temp %>%
 
 max_year <- max(temp$year)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = date, y = value, colour = name)) +
   geom_line(linewidth = 1.1) +
   geom_point(data = ends, size = 2) +
   ggrepel::geom_text_repel(data = ends, aes(label = name),
                            hjust = 0, nudge_x = 900, direction = "y",
-                           size = 4, fontface = "bold", family = franz_font,
+                           size = 4, fontface = "bold", family = font_corporate_design,
                            segment.colour = NA, min.segment.length = Inf,
                            box.padding = .1, seed = 1) +
   scale_x_date(breaks = seq(as.Date(paste0(min_year, "-01-01")),
@@ -60,14 +60,14 @@ g <- ggplot(temp, aes(x = date, y = value, colour = name)) +
                date_labels = "%Y",
                expand = expansion(mult = c(.02, .28))) +
   scale_y_continuous(breaks = scales::breaks_width(20)) +
-  scale_colour_manual(values = franz_pal("cat", length(countries)), guide = "none") +
+  scale_colour_manual(values = palette_corporate_design("cat", length(countries)), guide = "none") +
   coord_cartesian(clip = "off") +
   labs(title = fig_title,
        subtitle = fig_subtitle,
-       caption = franz_caption(src, last = max_year, lang = lang)) +
-  theme_franz(base_size = 13, grid = "y") +
+       caption = caption_corporate_design(src, last = max_year, lang = lang)) +
+  theme_corporate_design(base_size = 13, grid = "y") +
   theme(axis.title = element_blank())
 
 g
 
-save_post(g, "energy-usage", lang = lang, format = "portrait")
+save_chart(g, "energy-usage", lang = lang, format = "portrait")

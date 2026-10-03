@@ -141,7 +141,7 @@ top_comp <- comp %>%
   pull("coicop") %>%
   as.character()
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 # Helper file with mapping of COICOP code and its title
 coicop <- read.csv("mapping-coicop-1.csv") %>%
@@ -198,12 +198,12 @@ g <- ggplot(temp, aes(x = time, y = values)) +
        subtitle = temp_subtitle,
        caption = temp_caption) +
   scale_x_date(expand = c(.01, 0), date_breaks = "2 years", date_labels = "%Y") +
-  scale_colour_franz() +
-  theme_franz(base_size = 9) +
+  scale_colour_corporate_design() +
+  theme_corporate_design(base_size = 9) +
   theme(axis.title = element_blank()) +
   theme(legend.box = "vertical")
 
 g
 
-save_post(g, "core-inflation-main-drivers", lang = lang, format = "portrait")
+save_chart(g, "core-inflation-main-drivers", lang = lang, format = "portrait")
 

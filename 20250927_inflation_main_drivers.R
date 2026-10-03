@@ -62,7 +62,7 @@ comp <- index %>%
 
 # Get indicators with highest contribution to inflation in period
 top_comp <- comp %>%
-  filter(time == "2025-08-01",
+  filter(time == "2025-12-01",
          geo == "AT") %>%
   group_by(coicop) %>%
   summarise(value = sum(abs(values)),
@@ -103,7 +103,7 @@ max_date <- format(max(temp$time), "%YM%m")
 
 fig_caption <- paste0(fig_caption, max_date, ".")
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = time, y = values)) +
   geom_hline(yintercept = 0) +
@@ -126,7 +126,7 @@ g <- ggplot(temp, aes(x = time, y = values)) +
   theme(legend.box = "vertical") +
   theme(axis.title = element_blank())
 
-#g
+g
 
 ggsave(g, filename = paste0("pics/", file_date, "-inflation-main-drivers-", lang, ".jpeg"), height = 5, width = 5)
 

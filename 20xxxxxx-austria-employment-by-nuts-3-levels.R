@@ -94,19 +94,19 @@ fig_caption <- "Quelle: AMS. Nicht saisonell bereinigt. Letzter Wert: "
 max_date <- format(max(temp$date), "%YM%m")
 fig_caption <- paste0(fig_caption, max_date, ".")
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = date, y = value, fill = var)) +
   geom_col() +
   scale_x_date(expand = c(.01, 0), date_labels = "%Y", date_breaks = "1 year") +
   facet_wrap(~region_name, ncol = 6, scales = "free_y") +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   labs(title = "Beschäftigungslage in Österreich nach NUTS-3-Region",
        subtitle = "Tausend Personen (unterschiedliche Skalierung der y-Axen)",
        caption = fig_caption) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
 
 g
-save_post(g, "austria-employment-by-nuts-3-levels", format = "portrait")
+save_chart(g, "austria-employment-by-nuts-3-levels", format = "portrait")

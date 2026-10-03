@@ -52,21 +52,21 @@ if (lang == "de") {
 max_date <- format(as.yearqtr(max(temp$date)), "%YQ%q")
 fig_caption <- paste0(fig_caption, max_date, ".")
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = date, y = value, fill = "a")) +
   geom_col(show.legend = FALSE) +
   scale_x_date(expand = c(0, 0), date_labels = "%Y") +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   facet_wrap(~ name, ncol = 4) +
   labs(title = fig_title,
        subtitle = fig_subtitle,
        caption = fig_caption) +
   guides(fill = guide_legend(ncol = 2)) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(axis.line = element_blank(),
         axis.title = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
 
 g
-save_post(g, "austria-employment-by-sector-levels", lang = lang, format = "portrait")
+save_chart(g, "austria-employment-by-sector-levels", lang = lang, format = "portrait")

@@ -13,7 +13,7 @@ library(ggplot2)
 library(tidyr)
 library(zoo)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 # Download data
 raw <- get_eurostat(id = "namq_10_gdp", filters = list(geo = ctry,
@@ -87,15 +87,15 @@ g <- ggplot(temp, aes(x = date, y = value)) +
   geom_col(aes(fill = var), show.legend = FALSE) +
   scale_x_date(expand = c(.01, 0), date_breaks = "4 years", date_labels = "%Y") +
   scale_y_continuous(position = "right") +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   facet_grid(unit ~ var, scales = "free_y", switch = "y") +
   labs(title = temp_title,
        caption = temp_caption) +
-  theme_franz(base_size = 9) +
+  theme_corporate_design(base_size = 9) +
   theme(axis.title = element_blank(),
         axis.line = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
 
 g
-save_post(g, "gdp-components-level-and-change-ea", lang = lang, format = "landscape")
+save_chart(g, "gdp-components-level-and-change-ea", lang = lang, format = "landscape")
 

@@ -13,7 +13,7 @@ library(ecb)
 library(ggplot2)
 library(tidyr)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 konzepte <- paste0("BSI.M.", ctry, ".N.A.A30.A.1.U2.1000+2100+2200.Z01.E")
 
@@ -60,9 +60,9 @@ g <- ggplot(temp, aes(x = date, y = value, fill = var)) +
   facet_grid(geo ~ var, scales = "free_y", switch = "y") +
   scale_x_date(expand = c(.01, 1)) +
   scale_y_continuous(position = "right") +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   #scale_fill_viridis_d() +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
   labs(title = fig_title,
@@ -70,4 +70,4 @@ g <- ggplot(temp, aes(x = date, y = value, fill = var)) +
        caption = fig_caption)
 
 g
-save_post(g, "bank-debt-securities-change", lang = lang, format = "portrait")
+save_chart(g, "bank-debt-securities-change", lang = lang, format = "portrait")

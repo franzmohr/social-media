@@ -11,9 +11,9 @@ library(ggplot2)
 library(tidyr)
 library(zoo)
 
-ctry <- c("AT", "DE", "EA20", "EU27_2020")
+ctry <- c("AT", "DE", "EA21", "EU27_2020")
 if (lang == "de") {
-  ctry_labels <- c("Österreich", "Deutschland", "Euroraum-20", "Europäische Union") 
+  ctry_labels <- c("Österreich", "Deutschland", "Euroraum-21", "Europäische Union") 
 }
 
 # Load data on all COICOPs and selected countries ----
@@ -42,11 +42,11 @@ index <- get_eurostat(id = "prc_hicp_minr",
 split_coicop <- c("CP01", "CP04", "CP09", "CP12")
 
 comp <- index %>%
-  filter(substring(coicop18, 1, 2) == "CP", # Only consider "raw data"
-         !coicop18 %in% c("CP00"),
+  filter(substring(coicop18, 1, 2) == "CP" | coicop18 == "TOTAL", # Only consider "raw data"
          !grepl("_", coicop18),
          !grepl("-", coicop18),
-         nchar(coicop18) == 4) %>%
+         nchar(coicop18) == 4 | coicop18 == "TOTAL") %>%
+  filter(coicop18 != "TOTAL") %>%
   #  mutate(cond = case_when(substring(coicop, 1, 4) %in% split_coicop & nchar(coicop) == 5 ~ TRUE,
   #                          nchar(coicop) == 4 & !coicop %in% split_coicop ~ TRUE,
   #                          TRUE ~ FALSE)) %>%
@@ -68,7 +68,7 @@ comp <- index %>%
 # Selection window: the three most recent months the data actually reaches.
 # A hard-coded date silently selects nothing once the data moves past it.
 sel_dates <- sort(unique(comp$time[comp$geo == "AT"]))
-sel_from <- sel_dates[max(1, length(sel_dates) - 2)]
+sel_from <- sel_dates[max(1, length(sel_dates) - 3)]
 
 # Get indicators with highest contribution to inflation in period
 top_comp <- comp %>%
@@ -83,7 +83,7 @@ top_comp <- comp %>%
   as.character()
 
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 # Mapping of COICOP code and its title
 coicop <- read.csv("mapping-coicop-2.csv") %>%
@@ -99,9 +99,9 @@ if (lang == "de") {
   temp_other <- "Andere"
   fig_title <- "Bedeutendste Inflationstreiber"
   fig_subtitle <- "Beiträge der Komponenten zur Gesamtinflation in Prozentpunkten"
-  fig_caption <- paste0("Quelle: Eurostat. Eigene Berechnungen. Auswahl basiert auf\n",
-                        "österreichischen Werten ab ", format(sel_from, "%Y-%m"),
-                        ". Letzter Wert: ")
+  fig_caption <- paste0("Quelle: Eurostat. Eigene Berechnungen. Auswahl basiert auf ",
+                        "österreichischen Werten ab ", format(sel_from, "%YM%m"),
+                        ".\nLetzter Wert: ")
 }
 
 
@@ -126,12 +126,15 @@ g <- ggplot(temp, aes(x = time, y = values)) +
   scale_x_date(expand = c(.01, 0), date_breaks = "1 year", date_labels = "%Y") +
   scale_y_continuous(breaks = c(-2, 0, 2, 4, 6, 8, 10, 12)) +
   scale_fill_highlight(highlight = coicop_labels, rest = temp_other) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme() +
   theme(legend.box = "vertical") +
   theme(axis.title = element_blank())
 
 g
 
-save_post(g, "inflation-main-drivers-composition", lang = lang, format = "portrait")
+temp %>% group_by(time, geo) %>% summarise(value = sum(values), .groups = "drop") %>%
+  filter(time == max(time))
+
+save_chart(g, "inflation-main-drivers-composition", lang = lang, format = "portrait")
 

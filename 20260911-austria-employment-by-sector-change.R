@@ -79,19 +79,19 @@ net <- temp %>%
 
 max_date <- format(as.yearqtr(max(temp$date)), "%YQ%q")
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = date, y = value)) +
   geom_col(aes(fill = name), width = 80) +
   geom_zeroline() +
   # net change drawn on top, so the total is readable at a glance
-  geom_line(data = net, colour = franz_colours[["ink"]], linewidth = .8) +
+  geom_line(data = net, colour = design_colours()[["ink"]], linewidth = .8) +
   geom_point(data = filter(net, date == max(date)),
-             colour = franz_colours[["ink"]], size = 2) +
+             colour = design_colours()[["ink"]], size = 2) +
   geom_text(data = filter(net, date == max(date)),
             aes(label = paste0(label_net, ": ", round(value))),
             hjust = 0, nudge_x = 40, size = 3.6, fontface = "bold",
-            colour = franz_colours[["ink"]], family = franz_font) +
+            colour = design_colours()[["ink"]], family = font_corporate_design) +
   scale_x_date(breaks = seq(as.Date(min_date), max(temp$date), by = "1 year"),
                date_labels = "%Y",
                expand = expansion(mult = c(.02, .17))) +
@@ -102,8 +102,8 @@ g <- ggplot(temp, aes(x = date, y = value)) +
   coord_cartesian(clip = "off") +
   labs(title = fig_title,
        subtitle = fig_subtitle,
-       caption = franz_caption(src, last = max_date, lang = lang)) +
-  theme_franz(base_size = 13, grid = "y") +
+       caption = caption_corporate_design(src, last = max_date, lang = lang)) +
+  theme_corporate_design(base_size = 13, grid = "y") +
   theme(axis.title = element_blank(),
         legend.key.size = unit(11, "pt"),
         legend.text = element_text(size = 10.5),
@@ -111,4 +111,4 @@ g <- ggplot(temp, aes(x = date, y = value)) +
 
 g
 
-save_post(g, "austria-employment-by-sector-change", lang = lang, format = "portrait")
+save_chart(g, "austria-employment-by-sector-change", lang = lang, format = "portrait")

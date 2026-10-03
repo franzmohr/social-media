@@ -15,7 +15,7 @@ library(eurostat)
 library(ggplot2)
 library(tidyr)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 inflation <- get_eurostat("prc_hicp_ainr",
                           filters = list(geo = ctry,
@@ -115,12 +115,12 @@ g <- ggplot(temp, aes(x = time, y = values)) +
   guides(alpha = "none", colour = guide_legend(ncol = 1)) +
   labs(title = temp_title,
        caption = temp_caption) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(
         axis.title = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
         legend.title = element_blank())
 
 g
-save_post(g, "government-expenditures-top-functions", lang = lang, format = "portrait")
+save_chart(g, "government-expenditures-top-functions", lang = lang, format = "portrait")
 

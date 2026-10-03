@@ -11,7 +11,7 @@ library(ggplot2)
 library(tidyr)
 library(zoo)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 # Asset side data ----
 var_levels <- c("A20", "A30", "B50", "AXG", "A60", "A99")
@@ -126,8 +126,8 @@ g_asset <- ggplot(asset, aes(x = date, y = value, fill = name)) +
   guides(fill = guide_legend(ncol = 1)) +
   facet_wrap(~ geo, ncol = 1, scales = "free_y") +
   scale_x_date(expand = c(.01, 1)) +
-  scale_fill_franz() +
-  theme_franz(base_size = 13) +
+  scale_fill_corporate_design() +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title.x = element_blank()) +
   labs(title = asset_fig_title,
        y = asset_fig_y)
@@ -137,8 +137,8 @@ g_liab <- ggplot(liab, aes(x = date, y = value, fill = name)) +
   guides(fill = guide_legend(ncol = 1)) +
   facet_wrap(~ geo, ncol = 1, scales = "free_y") +
   scale_x_date(expand = c(.01, 1)) +
-  scale_fill_franz() +
-  theme_franz(base_size = 13) +
+  scale_fill_corporate_design() +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title = element_blank()) +
   labs(title = liab_fig_title)
 
@@ -153,4 +153,4 @@ g <- cowplot::ggdraw(cowplot::add_sub(g, label = fig_caption,
                                       x = .05, y = 0.5, hjust = 0, vjust = 0, size = 9))
 
 g
-save_post(g, "bank-balance-sheet-composition-change-both", lang = lang, format = "portrait")
+save_chart(g, "bank-balance-sheet-composition-change-both", lang = lang, format = "portrait")

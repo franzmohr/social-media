@@ -70,22 +70,22 @@ result <- result %>%
                          levels = c(max_yr, last_yr, "earlier"),
                          labels = c(max_yr, last_yr, temp_labels)))
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(result, aes(x = qr, y = value, group = yr)) +
   geom_line(aes(colour = highlt, linetype = highlt), linewidth = .9) +
-  geom_point(data = recent, colour = franz_colours[["red"]], size = 2,
+  geom_point(data = recent, colour = design_colours()[["red"]], size = 2,
              show.legend = FALSE) +
   scale_x_discrete(expand = c(.05, 0)) +
   scale_y_continuous(labels = scales::percent_format()) +
   # the current year in the brand red, last year for reference, the rest as context
-  scale_colour_manual(values = unname(franz_colours[c("red", "blue", "mute")])) +
+  scale_colour_manual(values = unname(design_colours()[c("red", "blue", "mute")])) +
   scale_linetype_manual(values = c(1, 2, 1)) +
   facet_wrap(~ geo) +
   labs(title = temp_title,
        caption = temp_caption) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title = element_blank())
 
 g
-save_post(g, "bank-return-on-asset", lang = lang, format = "portrait")
+save_chart(g, "bank-return-on-asset", lang = lang, format = "portrait")

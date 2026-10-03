@@ -70,19 +70,19 @@ ends <- front %>%
   filter(date == max(date)) %>%
   ungroup()
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(mapping = aes(x = date, y = value)) +
   # context: every other EU country, readable as a cloud but never as a series
   geom_line(data = back, aes(group = geo),
-            colour = franz_colours[["mute"]], linewidth = .5) +
+            colour = design_colours()[["mute"]], linewidth = .5) +
   # story: the six series that carry the point
   geom_line(data = front, aes(colour = name), linewidth = 1.1) +
   # direct labels replace the legend
   geom_point(data = ends, aes(colour = name), size = 1.8) +
   ggrepel::geom_text_repel(data = ends, aes(colour = name, label = name),
                            hjust = 0, nudge_x = 200, direction = "y",
-                           size = 4.1, fontface = "bold", family = franz_font,
+                           size = 4.1, fontface = "bold", family = font_corporate_design,
                            segment.colour = NA, min.segment.length = Inf,
                            box.padding = .1, seed = 1) +
   scale_x_date(breaks = seq(as.Date("2000-01-01"), as.Date(paste0(max_date, "-01-01")),
@@ -91,14 +91,14 @@ g <- ggplot(mapping = aes(x = date, y = value)) +
                expand = expansion(mult = c(.02, .26))) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1),
                      breaks = seq(0, 4, 1)) +
-  scale_colour_manual(values = franz_pal("cat", length(hl)), guide = "none") +
+  scale_colour_manual(values = palette_corporate_design("cat", length(hl)), guide = "none") +
   coord_cartesian(clip = "off") +
   labs(title = fig_title,
        subtitle = fig_subtitle,
-       caption = franz_caption(src, last = max_date, lang = lang)) +
-  theme_franz(base_size = 13, grid = "y") +
+       caption = caption_corporate_design(src, last = max_date, lang = lang)) +
+  theme_corporate_design(base_size = 13, grid = "y") +
   theme(axis.title = element_blank())
 
 g
 
-save_post(g, "government-debt-to-income", lang = lang, format = "portrait")
+save_chart(g, "government-debt-to-income", lang = lang, format = "portrait")

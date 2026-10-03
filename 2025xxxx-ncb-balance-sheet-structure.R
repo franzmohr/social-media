@@ -96,7 +96,7 @@ ggplot(temp, aes(x = date, y = value, fill = name)) +
          var = factor(var, levels = c("1000", "2240", "2250", "1100", "1200"),
                       labels = temp_var_labels))
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = date, y = value, colour = var, alpha = alph)) +
   geom_line(linewidth = .7) +
@@ -106,7 +106,7 @@ g <- ggplot(temp, aes(x = date, y = value, colour = var, alpha = alph)) +
        caption = temp_caption) +
   scale_x_date(expand = c(.01, 0), date_label = "%Y", date_breaks = "2 years") +
   scale_alpha_manual(values = c(1, .3)) +
-  scale_colour_franz() +
-  theme_franz(base_size = 13) +
+  scale_colour_corporate_design() +
+  theme_corporate_design(base_size = 13) +
   coord_cartesian(ylim = c(0, max(temp$value) * 1.06), expand = FALSE)
-save_post(g, "ncb-balance-sheet-structure", lang = lang, format = "portrait")
+save_chart(g, "ncb-balance-sheet-structure", lang = lang, format = "portrait")

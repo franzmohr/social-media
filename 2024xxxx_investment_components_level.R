@@ -44,34 +44,34 @@ real <- temp %>%
                           labels = var_labels_en),
          value = value / 1000)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(real, aes(x = date, y = value)) +
   geom_col(aes(fill = name_de), alpha = 1) +
   scale_x_yearqtr(expand = c(.01, 0), format = "%YQ%q", n = 10) +
   scale_colour_manual(values = "black") +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   guides(fill = guide_legend(ncol = 2)) +
   labs(title = "Investitionen (Österreich)",
        subtitle = "Mrd EUR (aktuelle Preise, Quartalsdaten)",
        caption = "Quelle: Eurostat. Saison- und kalenderbereinigte Daten.\nCode unter https://github.com/franzmohr/instagram.") +
-  theme_franz(base_size = 13)
+  theme_corporate_design(base_size = 13)
 
 g
 
-save_post(g, "investment-components-level", lang = "de", format = "portrait")
+save_chart(g, "investment-components-level", lang = "de", format = "portrait")
 
 
 g <- ggplot(real, aes(x = date, y = value)) +
   geom_col(aes(fill = name_en), alpha = 1) +
   scale_x_yearqtr(expand = c(.01, 0), format = "%YQ%q", n = 10) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   guides(fill = guide_legend(ncol = 2)) +
   labs(title = "Investment (Austria)",
        subtitle = "Bn EUR (current prices, quarterly data)",
        caption = "Source: Eurostat. Seasonally and calendar adjusted data.\nCode available at https://github.com/franzmohr/instagram.") +
-  theme_franz(base_size = 13)
+  theme_corporate_design(base_size = 13)
 
-save_post(g, "investment-components-level", lang = "en", format = "portrait")
+save_chart(g, "investment-components-level", lang = "en", format = "portrait")
 

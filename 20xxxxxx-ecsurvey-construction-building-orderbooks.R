@@ -105,19 +105,19 @@ ecdata <- ecdata %>%
          ctry = factor(ctry, levels = ctry_code, labels = ctry_names),
          value = value / 100)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(ecdata, aes(x = date, y = value)) +
   geom_zeroline() +
   geom_line(aes(colour = ctry)) +
   scale_x_date(expand = c(.01, 0), date_labels = "%Y", date_breaks = "1 year") +
   scale_y_continuous(labels = scales::percent_format(), limits = c(0, .8), expand = c(0, 0)) +
-  scale_colour_franz() +
+  scale_colour_corporate_design() +
   facet_wrap(~ name, ncol = 3) +
   labs(title = temp_title,
        caption = temp_caption) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme()
 
 g
-save_post(g, "ecsurvey-construction-building-orderbooks", lang = lang, format = "portrait")
+save_chart(g, "ecsurvey-construction-building-orderbooks", lang = lang, format = "portrait")

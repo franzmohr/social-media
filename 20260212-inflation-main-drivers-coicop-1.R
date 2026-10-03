@@ -102,7 +102,7 @@ max_date <- format(max(temp$time), "%YM%m")
 
 fig_caption <- paste0(fig_caption, max_date, ".")
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = time, y = values)) +
   geom_zeroline() +
@@ -114,13 +114,13 @@ g <- ggplot(temp, aes(x = time, y = values)) +
        caption = fig_caption) +
   scale_x_date(expand = c(.01, 0), date_breaks = "1 year", date_labels = "%Y") +
   scale_y_continuous(breaks = c(-2, 0, 2, 4, 6, 8, 10, 12)) +
-  scale_fill_franz() +
-  theme_franz(base_size = 13) +
+  scale_fill_corporate_design() +
+  theme_corporate_design(base_size = 13) +
   theme() +
   theme(legend.box = "vertical") +
   theme(axis.title = element_blank())
 
 g
 
-save_post(g, "inflation-main-drivers-coicop-1", lang = lang, format = "portrait")
+save_chart(g, "inflation-main-drivers-coicop-1", lang = lang, format = "portrait")
 

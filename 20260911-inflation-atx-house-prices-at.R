@@ -96,10 +96,10 @@ ends <- temp %>%
 
 max_date <- format(max(temp$date), "%YQ%q")
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = date, y = idx, colour = name)) +
-  geom_hline(yintercept = 100, colour = franz_colours[["ink_soft"]],
+  geom_hline(yintercept = 100, colour = design_colours()[["ink_soft"]],
              linewidth = .5, linetype = "22") +
   geom_line(linewidth = 1.2) +
   geom_point(data = ends, size = 2) +
@@ -108,20 +108,20 @@ g <- ggplot(temp, aes(x = date, y = idx, colour = name)) +
     data = ends,
     aes(label = paste0(name, "  ", round(idx))),
     hjust = 0, nudge_x = .8, direction = "y", size = 4,
-    fontface = "bold", family = franz_font,
+    fontface = "bold", family = font_corporate_design,
     segment.colour = NA, min.segment.length = Inf, box.padding = .15, seed = 1) +
   scale_x_yearqtr(breaks = seq(as.yearqtr(base_qtr), max(temp$date), by = 3),
                   format = "%Y",
                   expand = expansion(mult = c(.02, .40))) +
   scale_y_continuous(breaks = scales::breaks_width(50)) +
-  scale_colour_manual(values = franz_pal("cat", 4), guide = "none") +
+  scale_colour_manual(values = palette_corporate_design("cat", 4), guide = "none") +
   coord_cartesian(clip = "off") +
   labs(title = fig_title,
        subtitle = fig_subtitle,
-       caption = franz_caption(src, last = max_date, note = note, lang = lang)) +
-  theme_franz(base_size = 13, grid = "y") +
+       caption = caption_corporate_design(src, last = max_date, note = note, lang = lang)) +
+  theme_corporate_design(base_size = 13, grid = "y") +
   theme(axis.title = element_blank())
 
 g
 
-save_post(g, "inflation-atx-house-prices-at", lang = lang, format = "portrait")
+save_chart(g, "inflation-atx-house-prices-at", lang = lang, format = "portrait")

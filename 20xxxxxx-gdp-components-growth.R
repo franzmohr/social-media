@@ -13,7 +13,7 @@ library(ggplot2)
 library(tidyr)
 library(zoo)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 
 # Download data
@@ -106,13 +106,13 @@ g <- ggplot(real, aes(x = date, y = value)) +
   scale_x_date(expand = c(.01, 0), date_breaks = "1 year", date_labels = "%Y") +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   scale_colour_manual(values = "black") +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   guides(fill = guide_legend(nrow = 2)) +
   labs(title = temp_title,
        subtitle = temp_subtitle,
        caption = temp_caption) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title = element_blank())
 
 g
-save_post(g, "gdp-components-growth", lang = lang, format = "portrait")
+save_chart(g, "gdp-components-growth", lang = lang, format = "portrait")

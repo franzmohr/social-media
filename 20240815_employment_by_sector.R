@@ -65,7 +65,7 @@ temp <- get_eurostat(id = "namq_10_a10_e",
   select(date, ctry, sctr, value) %>%
   mutate(sctr = factor(sctr, levels = sectors, labels = sector_labels))
 
-source("theme_instagram.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = date, y = value, fill = ctry)) +
   geom_area(show.legend = FALSE) +

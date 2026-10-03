@@ -12,7 +12,7 @@ library(ggplot2)
 library(tidyr)
 library(zoo)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 raw <- get_data(paste0("MIR.M.", paste0(ctry, collapse = "+"), ".B.A2A+A2B+A2C+A2D.A.B.A..EUR.P"))
 
@@ -47,8 +47,8 @@ g <- ggplot(temp, aes(x = date, y = value, fill = var)) +
   facet_grid(geo~var, scales = "free_y") +
   scale_x_date(expand = c(.01, 1)) +
   #scale_y_continuous(limits = c(0, max_value * 1.06), expand = c(0,  0)) +
-  scale_fill_franz() +
-  theme_franz(base_size = 13) +
+  scale_fill_corporate_design() +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title = element_blank(),
         axis.line = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
@@ -57,4 +57,4 @@ g <- ggplot(temp, aes(x = date, y = value, fill = var)) +
        caption = fig_caption)
 
 g
-save_post(g, "bank-new-loans", lang = lang, format = "portrait")
+save_chart(g, "bank-new-loans", lang = lang, format = "portrait")

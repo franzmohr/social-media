@@ -62,20 +62,20 @@ if (lang == "de") {
 
 max_value <- max(temp$value)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 g <- ggplot(temp, aes(x = name, y = value, fill = date)) +
   geom_col(position = position_dodge(reverse = TRUE)) +
   scale_y_continuous(limits = c(0, max_value * 1.06), expand = c(0, 0)) +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   coord_flip() +
   labs(title = fig_title,
        subtitle = fig_subtitle,
        caption = fig_caption) +
   guides(fill = guide_legend(ncol = 2)) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(axis.line = element_blank(),
         axis.title = element_blank())
 
 g
-save_post(g, "austria-employment-by-sector-yoy-comparison", lang = lang, format = "portrait")
+save_chart(g, "austria-employment-by-sector-yoy-comparison", lang = lang, format = "portrait")

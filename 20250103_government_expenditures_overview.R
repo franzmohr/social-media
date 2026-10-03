@@ -12,7 +12,7 @@ library(eurostat)
 library(ggplot2)
 library(tidyr)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 raw <- get_eurostat("gov_10a_exp",
                     filters = list(geo = ctry,
@@ -69,10 +69,10 @@ g <- ggplot(temp, aes(x = time, y = values)) +
   labs(title = temp_title,
        subtitle = temp_y,
        caption = temp_caption) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(legend.position="bottom", legend.box = "vertical") +
   theme(axis.title = element_blank())
   
 g
-save_post(g, "government-expenditures-overview", lang = lang, format = "portrait")
+save_chart(g, "government-expenditures-overview", lang = lang, format = "portrait")
 

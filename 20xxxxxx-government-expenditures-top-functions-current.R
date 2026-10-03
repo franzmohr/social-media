@@ -15,7 +15,7 @@ library(eurostat)
 library(ggplot2)
 library(tidyr)
 
-source("theme_franz.R")
+source("r-corporate-design-functions-ggplot2.R")
 
 
 cofog <- read.csv("cofog-mapping.csv")
@@ -94,13 +94,13 @@ temp <- temp %>%
 
 ggplot(temp, aes(x = name, y = values)) +
   geom_col(aes(fill = "a"), show.legend = FALSE) +
-  scale_fill_franz() +
+  scale_fill_corporate_design() +
   coord_flip() +
   labs(title = temp_title,
        caption = temp_caption) +
-  theme_franz(base_size = 13) +
+  theme_corporate_design(base_size = 13) +
   theme(axis.title = element_blank())
 
 g
-save_post(g, "government-expenditures-top-functions-current", lang = lang, format = "portrait")
+save_chart(g, "government-expenditures-top-functions-current", lang = lang, format = "portrait")
 
