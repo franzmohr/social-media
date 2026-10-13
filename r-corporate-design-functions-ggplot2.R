@@ -316,10 +316,14 @@ wrap_labels <- function(x, width = 30) {
 }
 
 # Source line in the house wording, so attribution is identical everywhere.
-caption_corporate_design <- function(source, last = NULL, note = NULL, lang = "de") {
+# own = FALSE drops "Eigene Berechnungen." when the chart shows published
+# figures unchanged.
+caption_corporate_design <- function(source, last = NULL, note = NULL, lang = "de",
+                                     own = TRUE) {
   lab <- corporate_design$caption[[lang]]
   if (is.null(lab)) stop("no caption wording for lang = \"", lang, "\"")
-  txt <- paste0(lab$src, source, " ", lab$own)
+  txt <- paste0(lab$src, source)
+  if (own) txt <- paste0(txt, " ", lab$own)
   if (!is.null(last)) txt <- paste0(txt, " ", lab$last, last, ".")
   if (!is.null(note)) txt <- paste0(txt, "\n", note)
   txt
